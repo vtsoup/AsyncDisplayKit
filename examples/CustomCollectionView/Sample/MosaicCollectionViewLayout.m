@@ -36,6 +36,8 @@
   
   CGFloat top = 0;
   
+  ASCollectionView *asCollectionView = (ASCollectionView *)self.collectionView;
+  
   NSInteger numberOfSections = [self.collectionView numberOfSections];
   for (NSUInteger section = 0; section < numberOfSections; section++) {
     NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
@@ -64,7 +66,10 @@
       NSUInteger columnIndex = [self _shortestColumnIndexInSection:section];
       NSIndexPath *indexPath = [NSIndexPath indexPathForItem:idx inSection:section];
       
-      CGSize itemSize = [self _itemSizeAtIndexPath:indexPath];
+      //CGSize itemSize = [self _itemSizeAtIndexPath:indexPath];
+      ASCellNode *itemNode = [asCollectionView nodeForItemAtIndexPath:indexPath];
+      CGSize itemSize = itemNode.bounds.size;
+      
       CGFloat xOffset = _sectionInset.left + (columnWidth + _columnSpacing) * columnIndex;
       CGFloat yOffset = [_columnHeights[section][columnIndex] floatValue];
       
@@ -140,7 +145,7 @@
   CGSize size = CGSizeMake([self _columnWidthForSection:indexPath.section], 0);
   CGSize originalSize = [[self _delegate] collectionView:self.collectionView layout:self originalItemSizeAtIndexPath:indexPath];
   if (originalSize.height > 0 && originalSize.width > 0) {
-    size.height = originalSize.height / originalSize.width * size.width;
+    size.height = ((originalSize.height / originalSize.width) * size.width) + 100.0;
   }
   return size;
 }
