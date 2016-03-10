@@ -124,9 +124,13 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-  if (!CGRectEqualToRect(self.collectionView.bounds, newBounds)) {
-    return YES;
-  }
+//  if (!CGRectEqualToRect(self.collectionView.bounds, newBounds)) {
+//    return YES;
+//  }
+  
+  // returning YES will force the prepareLayout to get called over and over again
+  // when the user scrolls
+  
   return NO;
 }
 
